@@ -1,3 +1,5 @@
+import type { Dayjs } from 'dayjs';
+
 export type USER_ROLE = 'VIEWER' | 'DEVELOPER' | 'TECHNICAL_WRITER' | 'PENETRATION_TESTER' | 'PROJECT_MANAGER';
 
 export type SubprojectStatus = 'NOT_STARTED' | 'ON_GOING' | 'FINISHED';
@@ -71,9 +73,19 @@ export interface ProjectHeaderDto extends ProjectDto {
 
 export interface SubprojectDto {
     id: string;
+    projectId: string;
     name: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
+    imageId?: string;
+}
+
+export interface SubprojectData {
+    id: string;
+    projectId: string;
+    name: string;
+    startDate: Dayjs;
+    endDate: Dayjs;
     imageId?: string;
 }
 

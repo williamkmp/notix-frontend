@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { HttpStatusCode } from 'axios';
 import { z } from 'zod';
-import { useProjectInviteModalStore } from '../-stores/invite-modal';
-import { useProjectStore } from '../-stores/project';
+import { useProjectInviteModalStore } from '../../-stores/invite-modal';
+import { useProjectStore } from '../../-stores/project';
 import type { InviteDto, ServerResponseError, USER_ROLE } from '~/types';
 
 const { $v } = useMessage();

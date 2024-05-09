@@ -1,32 +1,46 @@
 <script setup lang="ts">
 import type { StompSubscription } from '@stomp/stompjs';
 import { HttpStatusCode } from 'axios';
+
 import { usePageLoadingStore } from './-stores/page-loading';
 import { useProjectStore } from './-stores/project';
 import { useAuthorityStore } from './-stores/authority';
 import { useProjectLogStore } from './-stores/log';
 import { useProjectMemberStore } from './-stores/member';
 import { useProjectInviteModalStore } from './-stores/invite-modal';
-import TimelineTab from './-components/timeline-tab.vue';
-import ProjectsTab from './-components/projects-tab.vue';
-import MembersTab from './-components/members-tab.vue';
-import AttachmentsTab from './-components/attachments-tab.vue';
-import UpdatesTab from './-components/update-logs-tab.vue';
-import ProjectHeader from './-components/project-header.vue';
-import InviteModal from './-components/invite-modal.vue';
-import PictureModal from './-components/project-picture-modal.vue';
 import { useProjectPictureModalStore } from './-stores/picture-modal';
-import type { LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError } from '~/types';
+import { useProjectSubprojectStore } from './-stores/subproject';
+import { useSubprojectModalStore } from './-stores/subproject-modal';
+
+// Components
+import ProjectHeader from './-components/project-header.vue';
+
+// Tabs Components
+import SubprojectsTab from './-components/tabs/subproject/index.vue';
+import MembersTab from './-components/tabs/member/index.vue';
+import AttachmentsTab from './-components/tabs/attachment/index.vue';
+import LogsTab from './-components/tabs/log/index.vue';
+
+// Modal Components
+import InviteModal from './-components/modals/invite-modal.vue';
+import PictureModal from './-components/modals/project-picture-modal.vue';
+import SubprojectModal from './-components/modals/subproject-modal.vue';
+
+// Layout Component
 import AppPage from '~/layouts/-components/app-page.vue';
+
+import type { LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectDto } from '~/types';
 
 const app = useAppStore();
 const socket = useSocketClientStore();
 const project = useProjectStore();
 const authority = useAuthorityStore();
+const subproject = useProjectSubprojectStore();
 const log = useProjectLogStore();
 const member = useProjectMemberStore();
 const inviteModal = useProjectInviteModalStore();
 const projectPictureModal = useProjectPictureModalStore();
+const subprojectModal = useSubprojectModalStore();
 const loading = usePageLoadingStore();
 
 const notif = useNotification();
@@ -49,6 +63,7 @@ onMounted(async () => {
         const pageResponse = responses[0] as ServerData<ProjectHeaderDto>;
         const memberResponse = responses[1] as ServerData<MemberDto[]>;
         const logsResposne = responses[2] as ServerData<LogDto[]>;
+        const subprojectsResponse = responses[3] as ServerData<SubprojectDto[]>;
 
         authority.setRole(pageResponse.data.role);
         project.watcher.ignoreUpdates(() => {
@@ -59,6 +74,7 @@ onMounted(async () => {
             project.startDate = dayjs(pageResponse.data.startDate);
             project.endDate = dayjs(pageResponse.data.endDate);
         });
+        subproject.setSubprojectList(subprojectsResponse.data);
         member.list = memberResponse.data;
         log.list = logsResposne.data;
         loading.isLoading = false;
@@ -170,6 +186,7 @@ function pageCleanup() {
         subscribtion.unsubscribe();
     inviteModal.reset();
     projectPictureModal.reset();
+    subprojectModal.reset();
 }
 
 onBeforeRouteLeave(pageCleanup);
@@ -204,7 +221,7 @@ onBeforeRouteUpdate(pageCleanup);
                         <template #item="{ item }">
                             <section class="mt-4 w-full">
                                 <template v-if="item.label === 'Projects'">
-                                    <ProjectsTab />
+                                    <SubprojectsTab />
                                 </template>
                                 <template v-else-if="item.label === 'Members'">
                                     <MembersTab />
@@ -213,7 +230,7 @@ onBeforeRouteUpdate(pageCleanup);
                                     <AttachmentsTab />
                                 </template>
                                 <template v-else-if="item.label === 'Updates'">
-                                    <UpdatesTab />
+                                    <LogsTab />
                                 </template>
                             </section>
                         </template>
@@ -224,4 +241,5 @@ onBeforeRouteUpdate(pageCleanup);
     </AppPage>
     <InviteModal />
     <PictureModal />
+    <SubprojectModal />
 </template>

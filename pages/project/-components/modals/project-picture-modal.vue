@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Cropper } from 'vue-advanced-cropper';
 import { computed, ref } from 'vue';
-import { useProjectPictureModalStore } from '../-stores/picture-modal';
-import { useProjectStore } from '../-stores/project';
+import { useProjectPictureModalStore } from '../../-stores/picture-modal';
+import { useProjectStore } from '../../-stores/project';
 
 // Dependencies
 const project = useProjectStore();

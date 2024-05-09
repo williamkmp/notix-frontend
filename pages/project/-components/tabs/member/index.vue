@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useAuthorityStore } from '../-stores/authority';
-import { useProjectInviteModalStore } from '../-stores/invite-modal';
-import { useProjectMemberStore } from '../-stores/member';
-import { useProjectStore } from '../-stores/project';
+import { useAuthorityStore } from '../../../-stores/authority';
+import { useProjectInviteModalStore } from '../../../-stores/invite-modal';
+import { useProjectMemberStore } from '../../../-stores/member';
+import { useProjectStore } from '../../../-stores/project';
 import type { MemberDto, USER_ROLE } from '~/types';
 
 const socket = useSocketClientStore();

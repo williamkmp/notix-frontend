@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useProjectLogStore } from '../-stores/log';
+import { useProjectLogStore } from '../../../-stores/log';
 
 const log = useProjectLogStore();
 </script>
