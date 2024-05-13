@@ -29,7 +29,7 @@ import SubprojectModal from './-components/modals/subproject-modal.vue';
 // Layout Component
 import AppPage from '~/layouts/-components/app-page.vue';
 
-import type { LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectDto } from '~/types';
+import type { LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectActionDto, SubprojectDto } from '~/types';
 
 const app = useAppStore();
 const socket = useSocketClientStore();
@@ -90,6 +90,13 @@ onMounted(async () => {
                         project.endDate = dayjs(payload.endDate);
                     });
                 }
+            }),
+        );
+
+        subscribtions.value.push(
+            socket.subscribe(`/topic/project/${projectId}/subprojects`, (payload: SubprojectActionDto) => {
+                if (payload.action === 'ADD')
+                    subproject.addSubproject(payload);
             }),
         );
 

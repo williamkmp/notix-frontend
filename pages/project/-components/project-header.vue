@@ -6,12 +6,12 @@ import { useProjectPictureModalStore } from '../-stores/picture-modal';
 import type { ServerData, UserDto } from '~/types';
 
 const authority = useAuthorityStore();
+const project = useProjectStore();
 const pageLoading = usePageLoadingStore();
 const projectPictureModal = useProjectPictureModalStore();
 
 const dayjs = useDayjs();
 const BASE_URL = useRuntimeConfig().public.API_BASE_URL;
-const project = useProjectStore();
 const api = usePrivateApi();
 
 const isFocused = ref(false);
@@ -27,6 +27,8 @@ const activePeriode = computed({
         project.endDate = dayjs(newPeriode.end).endOf('day');
     },
 });
+
+const userCanEditActivePeriode = computed(() => authority.userCanUpdateHeader && project.isActive);
 
 const owner = ref<UserDto>();
 watchImmediate(
@@ -83,7 +85,7 @@ function openPictureModal() {
                 <UAvatar :src="project.imageUrl" icon="i-heroicons-photo" size="3xl" />
             </template>
             <UInput
-                v-model="project.title" :disabled="!authority.userCanUpdateHeader" :rows="1" placeholder="Untitled"
+                v-model="project.title" :disabled="!userCanEditActivePeriode" :rows="1" placeholder="Untitled"
                 autoresize :variant="isFocused ? 'outline' : 'none'" class="mb-1 w-full font-extrabold transition"
                 :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-600': authority.userCanUpdateHeader }" size="xl" :ui="{
                     size: { xl: 'text-4xl tracking-wide' },
@@ -125,8 +127,8 @@ function openPictureModal() {
                 </div>
                 <div class="flex w-full items-center">
                     <RangeDatePicker
-                        v-model="activePeriode" variant="solid" :disabled="!authority.userCanUpdateHeader"
-                        color="white"
+                        v-model="activePeriode" variant="solid"
+                        :disabled="!userCanEditActivePeriode " color="white"
                     />
                 </div>
 

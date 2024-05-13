@@ -17,6 +17,11 @@ async function doCreateProject() {
             startDate: dayjs(subprojectModalStore.form.range.start).startOf('day').toISOString(),
         },
     );
+    console.log('[STOMP]: SEND subproject.add', {
+        name: subprojectModalStore.form.name,
+        endDate: dayjs(subprojectModalStore.form.range.end).endOf('day').toISOString(),
+        startDate: dayjs(subprojectModalStore.form.range.start).startOf('day').toISOString(),
+    });
     subprojectModalStore.reset();
     subprojectModalStore.isLoading = false;
 }

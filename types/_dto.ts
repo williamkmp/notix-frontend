@@ -80,6 +80,10 @@ export interface SubprojectDto {
     imageId?: string;
 }
 
+export interface SubprojectActionDto extends SubprojectDto {
+    action: ACTION;
+}
+
 export interface SubprojectData {
     id: string;
     projectId: string;

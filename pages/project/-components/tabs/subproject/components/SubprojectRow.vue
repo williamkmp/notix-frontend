@@ -9,6 +9,13 @@ defineEmits<{
     delete: [subproject: SubprojectData];
 }>();
 const dayjs = useDayjs();
+
+const sanitizedSubprojectName = computed(() => props.subproject.name
+    .replace(/[^a-zA-Z0-9]/ig, ' ')
+    .replace(/([\s\S])\1+/g, ' ')
+    .toUpperCase(),
+);
+
 const progressStatus = computed(() => {
     const today = dayjs();
     const startDay = props.subproject.startDate.startOf('day');
@@ -24,9 +31,10 @@ const progressStatus = computed(() => {
 const activePeriode = computed(() => {
     const displayFormat = 'DD MMM YYYY';
     const startDay = props.subproject.startDate.startOf('day').format(displayFormat);
-    const endDay = props.subproject.startDate.endOf('day').format(displayFormat);
+    const endDay = props.subproject.endDate.endOf('day').format(displayFormat);
     return `${startDay} → ${endDay}`;
 });
+
 const className = 'py-3 text-left first:pl-4 last:pr-4 first:rounded-l-lg last:rounded-r-lg first:border-l last:border-r border-y border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900';
 </script>
 
@@ -34,7 +42,7 @@ const className = 'py-3 text-left first:pl-4 last:pr-4 first:rounded-l-lg last:r
     <tr>
         <td :class="className">
             <div class="flex items-center gap-4">
-                <UAvatar :alt="subproject.name.toUpperCase()" size="md" />
+                <UAvatar :alt="sanitizedSubprojectName" size="md" />
                 <span class="font-semibold">{{ subproject.name }}</span>
             </div>
         </td>
@@ -58,9 +66,7 @@ const className = 'py-3 text-left first:pl-4 last:pr-4 first:rounded-l-lg last:r
             <td :class="className">
                 <div class="flex items-center justify-start gap-2">
                     <UButton
-                        icon="i-heroicons-trash"
-                        variant="outline"
-                        color="red"
+                        icon="i-heroicons-trash" variant="outline" color="red"
                         @click="$emit('delete', props.subproject)"
                     />
                 </div>

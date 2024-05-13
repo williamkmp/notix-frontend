@@ -16,8 +16,24 @@ export const useProjectSubprojectStore = defineStore('ProjectSubprojectStore', (
         });
     }
 
+    function addSubproject(dto: SubprojectDto) {
+        list.value.unshift({
+            id: dto.id,
+            projectId: dto.projectId,
+            name: dto.name,
+            startDate: dayjs(dto.startDate),
+            endDate: dayjs(dto.endDate),
+        });
+    }
+
+    function removeSubproject(subprojectId: string) {
+        list.value = list.value.filter(subproject => subproject.id !== subprojectId);
+    }
+
     return {
         list,
         setSubprojectList,
+        addSubproject,
+        removeSubproject,
     };
 });
