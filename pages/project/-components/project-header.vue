@@ -28,7 +28,7 @@ const activePeriode = computed({
     },
 });
 
-const userCanEditActivePeriode = computed(() => authority.userCanUpdateHeader && project.isActive);
+const userCanEditActivePeriode = computed(() => authority.userCanUpdateHeader);
 
 const owner = ref<UserDto>();
 watchImmediate(
