@@ -14,12 +14,7 @@ import { useSubprojectModalStore } from './-stores/subproject-modal';
 
 // Components
 import ProjectHeader from './-components/project-header.vue';
-
-// Tabs Components
-import SubprojectsTab from './-components/tabs/subproject/index.vue';
-import MembersTab from './-components/tabs/member/index.vue';
-import AttachmentsTab from './-components/tabs/attachment/index.vue';
-import LogsTab from './-components/tabs/log/index.vue';
+import ProjectTabs from './-components/tabs/index.vue';
 
 // Modal Components
 import InviteModal from './-components/modals/invite-modal.vue';
@@ -27,9 +22,10 @@ import PictureModal from './-components/modals/project-picture-modal.vue';
 import SubprojectModal from './-components/modals/subproject-modal.vue';
 
 // Layout Component
+import { useProjectFileStore } from './-stores/file';
 import AppPage from '~/layouts/-components/app-page.vue';
 
-import type { LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectActionDto, SubprojectDto } from '~/types';
+import type { FileDto, LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectActionDto, SubprojectDto } from '~/types';
 
 const app = useAppStore();
 const socket = useSocketClientStore();
@@ -41,6 +37,7 @@ const member = useProjectMemberStore();
 const inviteModal = useProjectInviteModalStore();
 const projectPictureModal = useProjectPictureModalStore();
 const subprojectModal = useSubprojectModalStore();
+const fileStore = useProjectFileStore();
 const loading = usePageLoadingStore();
 
 const notif = useNotification();
@@ -58,12 +55,14 @@ onMounted(async () => {
             api.get(`/api/project/${projectId}/members`),
             api.get(`/api/project/${projectId}/logs`),
             api.get(`/api/project/${projectId}/subprojects`),
+            api.get(`/api/project/${projectId}/files`),
         ]);
 
         const pageResponse = responses[0] as ServerData<ProjectHeaderDto>;
         const memberResponse = responses[1] as ServerData<MemberDto[]>;
         const logsResposne = responses[2] as ServerData<LogDto[]>;
         const subprojectsResponse = responses[3] as ServerData<SubprojectDto[]>;
+        const filesResponse = responses[4] as ServerData<FileDto[]>;
 
         authority.setRole(pageResponse.data.role);
         project.watcher.ignoreUpdates(() => {
@@ -77,6 +76,7 @@ onMounted(async () => {
         subproject.setSubprojectList(subprojectsResponse.data);
         member.list = memberResponse.data;
         log.list = logsResposne.data;
+        fileStore.setFiles(filesResponse.data);
         loading.isLoading = false;
 
         subscribtions.value.push(
@@ -194,6 +194,7 @@ function pageCleanup() {
     inviteModal.reset();
     projectPictureModal.reset();
     subprojectModal.reset();
+    fileStore.reset();
 }
 
 onBeforeRouteLeave(pageCleanup);
@@ -217,31 +218,7 @@ onBeforeRouteUpdate(pageCleanup);
             <div data-role="project-page" class="flex justify-center px-20">
                 <UContainer class="my-10 flex w-full flex-col gap-4">
                     <ProjectHeader />
-                    <UTabs
-                        class="mt-2" :items="[
-                            { label: 'Projects' },
-                            { label: 'Members' },
-                            { label: 'Reports & Attachments' },
-                            { label: 'Updates' },
-                        ]"
-                    >
-                        <template #item="{ item }">
-                            <section class="mt-4 w-full">
-                                <template v-if="item.label === 'Projects'">
-                                    <SubprojectsTab />
-                                </template>
-                                <template v-else-if="item.label === 'Members'">
-                                    <MembersTab />
-                                </template>
-                                <template v-else-if="item.label === 'Reports & Attachments'">
-                                    <AttachmentsTab />
-                                </template>
-                                <template v-else-if="item.label === 'Updates'">
-                                    <LogsTab />
-                                </template>
-                            </section>
-                        </template>
-                    </UTabs>
+                    <ProjectTabs />
                 </UContainer>
             </div>
         </template>

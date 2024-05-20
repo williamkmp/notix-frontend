@@ -16,13 +16,15 @@ const className = {
 };
 
 const memberList = computed(() => {
-    const sortedByName = members.list.sort((userA, userB) => {
+    const sortedByName = members.list.toSorted((userA, userB) => {
         const nameA = userA.fullName.toLocaleLowerCase();
         const nameB = userB.fullName.toLocaleLowerCase();
         return nameA > nameB ? 1 : -1;
     });
     return sortedByName.filter(user => user.role !== 'PROJECT_MANAGER');
 });
+
+const isProjectActive = computed(() => project.isActive);
 
 function roleDisplayOf(role: USER_ROLE) {
     switch (role) {
@@ -84,7 +86,7 @@ function deleteMember(member: MemberDto) {
             </h1>
             <UButton
                 v-if="authority.userCanOpearteMember" icon="i-heroicons-user-plus" label="Invite" size="md"
-                color="white" variant="solid" @click="inviteModal.isOpen = true"
+                color="white" variant="solid" :disabled="!isProjectActive" @click="inviteModal.isOpen = true"
             />
         </header>
 

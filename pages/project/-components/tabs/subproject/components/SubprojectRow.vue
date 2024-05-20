@@ -11,7 +11,7 @@ defineEmits<{
 const dayjs = useDayjs();
 
 const sanitizedSubprojectName = computed(() => props.subproject.name
-    .replace(/[^a-zA-Z0-9]/ig, ' ')
+    .replace(/[^a-z0-9]/gi, ' ')
     .replace(/([\s\S])\1+/g, ' ')
     .toUpperCase(),
 );

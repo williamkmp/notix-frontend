@@ -10,6 +10,8 @@ export type PREVIEW_ACTION = 'ADD_CHILD' | 'UPDATE_SELF' | 'DELETE_SELF' | 'DELE
 
 export type ACTION = 'ADD' | 'UPDATE' | 'DELETE';
 
+export type FILE_TYPE = 'ATTACHMENT' | 'REPORT' | 'PUBLIC';
+
 export interface EventDto {
     id: string;
     name: string;
@@ -34,6 +36,7 @@ export interface FileDto {
     uploaderId: string;
     name: string;
     size: number;
+    type: FILE_TYPE;
     url: string;
     contentType: string;
 }
