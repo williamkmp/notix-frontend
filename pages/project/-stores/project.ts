@@ -21,6 +21,10 @@ export const useProjectStore = defineStore('ProjectPageStore', () => {
 
     const status = computed((): PROJECT_STATUS => {
         const today = dayjs();
+        if (startDate.value === undefined || endDate.value === undefined) {
+            return 'NOT_STARTED'
+        }
+        
         if (today.isBefore(startDate.value.startOf('day')))
             return 'NOT_STARTED';
         else if (today.isAfter(endDate.value.endOf('day')))
