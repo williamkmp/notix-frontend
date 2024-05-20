@@ -49,7 +49,7 @@ const range = defineModel<RangeDatePickerModel>('range',{ required: true });
 const title = defineModel<String>('title',{required: true})
 
 const ownerImageUrl = computed(() => props.owner?.imageId !== undefined
-    ? `${BASE_URL}/api/file/${props.owner.imageId}`
+    ? `${BASE_URL}api/file/${props.owner.imageId}`
     : undefined,
 );
 

@@ -16,7 +16,7 @@ defineEmits<{
 const imageUrl = computed(() => {
     if (props.imageId) {
         const baseURL = useRuntimeConfig().public.API_BASE_URL;
-        return `${baseURL}/api/file/${props.imageId}`;
+        return `${baseURL}api/file/${props.imageId}`;
     }
     return undefined;
 });
