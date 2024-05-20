@@ -55,10 +55,19 @@ function openCreateModal() {
                         </th>
                     </template>
                 </thead>
-                <tbody>
+                <tbody v-if="subprojectStore.list.length>0">
                     <template v-for="subproject in subprojectStore.list" :key="subproject.id">
                         <SubprojectRow :subproject="subproject" :actionable="canDeleteSubproject" />
                     </template>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td colspan="4" :class="headerClassName" class="text-center py-12">
+                            No subproject found
+                        </td>
+                        
+                    </tr>
+                    
                 </tbody>
             </table>
         </section>
