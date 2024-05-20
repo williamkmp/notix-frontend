@@ -74,7 +74,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             REFRESH_TOKEN_KEY: 'NOTIX_REFRESHTOKEN_STORAGE_KEY',
-            API_BASE_URL: 'http://localhost:5000/',
+            API_BASE_URL: 'http://localhost:5000',
             WS_BASE_URL: 'ws://localhost:5000/ws',
             HOCUSPOCUS: 'ws://localhost:5050',
             FILE_MAX_SIZE: 5_000_000, // 5MB

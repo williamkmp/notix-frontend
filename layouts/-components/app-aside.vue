@@ -150,6 +150,7 @@ function removePreview(previewId: string) {
                         <ProjectPreview
                             v-for="project in previews"
                             :key="project.id"
+                            
                             :project="project"
                             @deleted="(preview) => removePreview(preview.id)"
                         />

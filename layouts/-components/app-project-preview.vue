@@ -45,6 +45,7 @@ onUnmounted(() => {
         :is-open="isOpen"
         :lable="name"
         :level="0"
+        :image-id="props.project.imageId"
         :redirect-url="`/project/${props.project.id}`"
         @toggle-open="toggleOpen"
         @do-navigate="navigateTo(`/project/${$props.project.id}`)"

@@ -15,7 +15,7 @@ export const useProjectStore = defineStore('ProjectPageStore', () => {
     const endDate = ref() as Ref<Dayjs>;
 
     const imageUrl = computed(() => imageId.value !== undefined
-        ? encodeURI(`${BASE_URL}api/file/${imageId.value}`)
+        ? encodeURI(`${BASE_URL}/api/file/${imageId.value}`)
         : undefined,
     );
 
