@@ -10,6 +10,8 @@ export const useAuthorityStore = defineStore('ProjectAuthorityStore', () => {
     const userCanUpdateHeader = computed(() => role.value === 'PROJECT_MANAGER');
     const userCanOpearteSubProject = computed(() => role.value === 'PROJECT_MANAGER');
     const userCanOpearteMember = computed(() => role.value === 'PROJECT_MANAGER');
+    const userCanOpearteReports = computed(() => role.value === 'PROJECT_MANAGER' || role.value === 'TECHNICAL_WRITER');
+    const userCanOpearteAttachments = computed(() => role.value === 'PROJECT_MANAGER' || role.value === 'DEVELOPER');
 
     return {
         setRole,
@@ -17,5 +19,7 @@ export const useAuthorityStore = defineStore('ProjectAuthorityStore', () => {
         userCanUpdateHeader,
         userCanOpearteSubProject,
         userCanOpearteMember,
+        userCanOpearteReports,
+        userCanOpearteAttachments,
     };
 });

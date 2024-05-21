@@ -25,7 +25,7 @@ import SubprojectModal from './-components/modals/subproject-modal.vue';
 import { useProjectFileStore } from './-stores/file';
 import AppPage from '~/layouts/-components/app-page.vue';
 
-import type { FileDto, LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectActionDto, SubprojectDto } from '~/types';
+import type { FileActionDto, FileDto, LogDto, MemberActionDto, MemberDto, ProjectDto, ProjectHeaderDto, ServerData, ServerResponseError, SubprojectActionDto, SubprojectDto } from '~/types';
 
 const app = useAppStore();
 const socket = useSocketClientStore();
@@ -97,6 +97,15 @@ onMounted(async () => {
             socket.subscribe(`/topic/project/${projectId}/subprojects`, (payload: SubprojectActionDto) => {
                 if (payload.action === 'ADD')
                     subproject.addSubproject(payload);
+            }),
+        );
+
+        subscribtions.value.push(
+            socket.subscribe(`/topic/project/${projectId}/files`, (payload: FileActionDto) => {
+                if (payload.action === 'ADD')
+                    fileStore.addFile(payload);
+                else if (payload.action === 'DELETE')
+                    fileStore.removeFile(payload.type, payload.id);
             }),
         );
 
@@ -215,10 +224,12 @@ onBeforeRouteUpdate(pageCleanup);
         </template>
 
         <template #body>
-            <div data-role="project-page" class="flex justify-center px-20">
-                <UContainer class="my-10 flex w-full flex-col gap-4">
+            <div data-role="project-page" class="flex h-full justify-center px-20">
+                <UContainer class="py-10 flex w-full flex-col gap-4 ">
                     <ProjectHeader />
-                    <ProjectTabs />
+                    <div class="flex-grow">
+                        <ProjectTabs />
+                    </div>
                 </UContainer>
             </div>
         </template>

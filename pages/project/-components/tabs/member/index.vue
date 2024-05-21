@@ -79,7 +79,7 @@ function deleteMember(member: MemberDto) {
 </script>
 
 <template>
-    <div data-role="project-tab-container" class="group flex w-full flex-col gap-1">
+    <div data-role="project-tab-container" class="flex size-full flex-col gap-1">
         <header class="flex w-full items-center justify-between">
             <h1 class="text-2xl font-semibold">
                 Members
@@ -90,7 +90,7 @@ function deleteMember(member: MemberDto) {
             />
         </header>
 
-        <section>
+        <div class="size-full">
             <template v-if="memberList.length > 0">
                 <table class="table w-full table-auto border-separate border-spacing-y-4">
                     <thead>
@@ -162,13 +162,13 @@ function deleteMember(member: MemberDto) {
             </template>
             <template v-else>
                 <div class="flex size-full items-center justify-center">
-                    <section class="mt-20 flex flex-col items-center justify-center opacity-70">
+                    <section class="flex flex-col items-center justify-center opacity-70">
                         <UIcon name="i-heroicons-no-symbol" class="text-6xl" />
                         <span class="text-base font-semibold">Empty</span>
                         <span class="text-base">Add members by email</span>
                     </section>
                 </div>
             </template>
-        </section>
+        </div>
     </div>
 </template>

@@ -39,6 +39,11 @@ export interface FileDto {
     type: FILE_TYPE;
     url: string;
     contentType: string;
+    createdAt: string;
+}
+
+export interface FileActionDto extends FileDto {
+    action: ACTION;
 }
 
 export interface LoginDto {

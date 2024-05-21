@@ -11,7 +11,8 @@ const isLoading = computed(() => pageLoadingStore.isLoading);
 
 <template>
     <UTabs
-        class="mt-2" :items="[
+        class="size-full flex flex-col flex-grow"
+        :ui="{ wrapper: 'space-y-4', container: 'h-full', base: 'size-full' }" :items="[
             { label: 'Projects' },
             { label: 'Members' },
             { label: 'Reports & Attachments' },
@@ -19,27 +20,29 @@ const isLoading = computed(() => pageLoadingStore.isLoading);
         ]"
     >
         <template #item="{ item }">
-            <template v-if="isLoading">
-                <div class="flex size-full h-80 items-center justify-center" data-role="loader">
-                    <USkeleton class=" size-full mt-20 flex flex-col items-center justify-center opacity-70" />
-                </div>
-            </template>
-            <template v-else>
-                <section class="mt-4 w-full">
-                    <template v-if="item.label === 'Projects'">
-                        <SubprojectsTab />
-                    </template>
-                    <template v-else-if="item.label === 'Members'">
-                        <MembersTab />
-                    </template>
-                    <template v-else-if="item.label === 'Reports & Attachments'">
-                        <AttachmentsTab />
-                    </template>
-                    <template v-else-if="item.label === 'Updates'">
-                        <LogsTab />
-                    </template>
-                </section>
-            </template>
+            <div class="size-full">
+                <template v-if="isLoading">
+                    <div class="flex size-full items-center justify-center" data-role="loader">
+                        <USkeleton class=" size-full flex flex-col items-center justify-center opacity-70" />
+                    </div>
+                </template>
+                <template v-else>
+                    <section class="size-full flex-grow">
+                        <template v-if="item.label === 'Projects'">
+                            <SubprojectsTab />
+                        </template>
+                        <template v-else-if="item.label === 'Members'">
+                            <MembersTab />
+                        </template>
+                        <template v-else-if="item.label === 'Reports & Attachments'">
+                            <AttachmentsTab />
+                        </template>
+                        <template v-else-if="item.label === 'Updates'">
+                            <LogsTab />
+                        </template>
+                    </section>
+                </template>
+            </div>
         </template>
     </UTabs>
 </template>

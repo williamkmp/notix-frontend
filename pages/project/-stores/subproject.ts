@@ -4,6 +4,8 @@ export const useProjectSubprojectStore = defineStore('ProjectSubprojectStore', (
     const dayjs = useDayjs();
     const list = ref<SubprojectData[]>([]);
 
+    const isEmpty = computed(() => list.value.length <= 0);
+
     function setSubprojectList(dtoList: SubprojectDto[]) {
         list.value = dtoList.map((dto) => {
             return {
@@ -31,7 +33,8 @@ export const useProjectSubprojectStore = defineStore('ProjectSubprojectStore', (
     }
 
     return {
-        list,
+        list: readonly(list),
+        isEmpty,
         setSubprojectList,
         addSubproject,
         removeSubproject,

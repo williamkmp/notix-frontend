@@ -10,7 +10,7 @@ defineEmits<{
 }>();
 const dayjs = useDayjs();
 
-const sanitizedSubprojectName = computed(() => props.subproject.name
+const sanitizedSubprojectName = computed(() => (props.subproject.name || 'Untitled')
     .replace(/[^a-z0-9]/gi, ' ')
     .replace(/([\s\S])\1+/g, ' ')
     .toUpperCase(),
@@ -43,7 +43,7 @@ const className = 'py-3 text-left first:pl-4 last:pr-4 first:rounded-l-lg last:r
         <td :class="className">
             <div class="flex items-center gap-4">
                 <UAvatar :alt="sanitizedSubprojectName" size="md" />
-                <span class="font-semibold">{{ subproject.name }}</span>
+                <span class="font-semibold">{{ subproject.name.trim() || 'Untitled' }}</span>
             </div>
         </td>
         <td :class="className">

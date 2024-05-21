@@ -10,6 +10,10 @@ const api = usePublicApi();
 const app = useAppStore();
 
 const loginForm = useFormDeclaration({
+    initial: {
+        email: 'william@email.com',
+        password: 'password',
+    },
     schema: z.object({
         email: z
             .string({ required_error: $v('required') })
