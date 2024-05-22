@@ -17,14 +17,7 @@ const dayjs = useDayjs();
 
 const updater = ref<UserDto>();
 const isLoading = ref(true);
-const imageUrl = computed(() => {
-    if (updater.value) {
-        const imageId = updater.value.imageId;
-        return imageId !== undefined
-            ? `/api/file/${imageId}`
-            : undefined;
-    }
-});
+const imageUrl = computed(() => `/api/file/${updater?.value?.imageId ?? '-1'}`);
 
 const displayedTime = computed(() => {
     return dayjs(props.log.createdAt).format('ddd, MMM D, YYYY HH:mm');
