@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
-import type { FileDto } from '~/types';
+import type { FileDto, ServerData, UserDto } from '~/types';
 
 type FileType = 'AUDIO' | 'VIDEO' | 'IMAGE' | 'TEXT' | 'DOCX' | 'PDF' | 'PPT' | 'EXCEL' | 'FILE';
 
@@ -10,6 +10,27 @@ const props = defineProps<{
 }>();
 
 const dayJs = useDayjs();
+const c = useRuntimeConfig().public;
+const api = usePrivateApi();
+
+const isLoading = ref(true);
+const user = ref<UserDto>();
+
+onMounted(async () => {
+    isLoading.value = true;
+    const response: ServerData<UserDto> = await api.get(`/api/user/${props.fileData.uploaderId}`);
+    user.value = response.data;
+    isLoading.value = false;
+});
+
+const userName = computed(() => {
+    return user.value
+        ? user.value.fullName
+        : 'Anonymous';
+});
+
+const fileUrl = computed(() => `${c.API_BASE_URL}api/file/${props.fileData.id ?? '-1'}`);
+const userAvatarUrl = computed(() => `${c.API_BASE_URL}api/file/${user.value?.imageId ?? '-1'}`);
 
 const fileType = computed((): FileType => {
     const mimeType = props.fileData.contentType;
@@ -98,25 +119,64 @@ const iconName = computed(() => {
         return 'i-mdi-folder-zip';
 });
 
+const iconColor = computed(() => {
+    if (fileType.value === 'AUDIO')
+        return 'text-purple-400';
+    if (fileType.value === 'VIDEO')
+        return 'text-purple-400';
+    if (fileType.value === 'IMAGE')
+        return 'text-sky-400';
+    if (fileType.value === 'TEXT')
+        return 'text-slate-400';
+    if (fileType.value === 'DOCX')
+        return 'text-blue-600';
+    if (fileType.value === 'PDF')
+        return 'text-red-600';
+    if (fileType.value === 'PPT')
+        return 'text-orang-600';
+    if (fileType.value === 'EXCEL')
+        return 'text-green-600';
+    else
+        return 'text-gray-500';
+});
+
 const uploadDateTime = computed(() => dayJs(props.fileData.createdAt).format('DD MMM YYYY, hh:mm'));
 </script>
 
 <template>
-    <div class="w-full bg-white rounded-md flex overflow-hidden py-2 px-3 gap-4 ">
-        <div class="flex items-center justify-center">
-            <UIcon class="text-3xl" :name="iconName" dynamic />
-        </div>
-        <div class="h-full flex flex-col items-start justify-center">
-            <span class="text-base font-medium">
-                {{ props.fileData.name }}
-            </span>
-            <span class="text-xs font-normal opacity-75">
-                {{ humanReadableFileSize(props.fileData.size) }}
-            </span>
-            <span class="text-xs font-normal opacity-75">
-                {{ uploadDateTime }}
-            </span>
-            <span />
-        </div>
-    </div>
+    <UCard class="w-full">
+        <template v-if="!isLoading">
+            <div class="size-full flex gap-4 group">
+                <div class="flex items-center justify-center">
+                    <UIcon class="text-5xl" :class="[iconColor]" :name="iconName" dynamic />
+                </div>
+                <div class="w-full flex flex-col gap-0.5 items-start justify-center">
+                    <span class="text-base font-semibold">{{ props.fileData.name }}</span>
+                    <span class="text-xs font-normal opacity-75">{{ humanReadableFileSize(props.fileData.size) }}</span>
+                    <span class="text-xs font-normal opacity-75">{{ uploadDateTime }}</span>
+                    <div class="w-full flex items-center gap-1">
+                        <UAvatar size="2xs" :src="userAvatarUrl" :alt="userName.toUpperCase()" />
+                        <span class="text-xs">{{ userName }}</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center justify-between">
+                    <template v-if="props.deleteable">
+                        <UButton variant="ghost" color="red" icon="i-heroicons-x-circle" size="md" :padded="false" />
+                    </template>
+                    <template v-else>
+                        <div />
+                    </template>
+                    <a :href="fileUrl" download>
+                        <UButton
+                            variant="ghost" icon="i-ic-baseline-download-for-offline" size="md"
+                            :padded="false"
+                        />
+                    </a>
+                </div>
+            </div>
+        </template>
+        <template v-else>
+            <USkeleton class="w-full h-20" />
+        </template>
+    </UCard>
 </template>

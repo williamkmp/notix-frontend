@@ -4,11 +4,12 @@ import { useAuthorityStore } from '~/pages/project/-stores/authority';
 import { useProjectFileStore } from '~/pages/project/-stores/file';
 import { useProjectStore } from '~/pages/project/-stores/project';
 
-import type { FileDto, ServerData } from '~/types';
+import type { FileDto, ServerData, USER_ROLE } from '~/types';
 
 const fileStore = useProjectFileStore();
 const authority = useAuthorityStore();
 const project = useProjectStore();
+const appStore = useAppStore();
 
 const api = usePrivateApi();
 const notif = useNotification();
@@ -27,6 +28,8 @@ const attachmentFileDialog = useFileDialog({
 const isUploadingAttachment = ref(false);
 const isUploadingReport = ref(false);
 
+reportFileDialog.onChange(files => doUpload('report', files));
+attachmentFileDialog.onChange(files => doUpload('attachment', files));
 async function doUpload(type: 'report' | 'attachment', files: FileList | null) {
     if (type === 'report')
         isUploadingReport.value = true;
@@ -62,8 +65,17 @@ async function doUpload(type: 'report' | 'attachment', files: FileList | null) {
     }
 }
 
-reportFileDialog.onChange(files => doUpload('report', files));
-attachmentFileDialog.onChange(files => doUpload('attachment', files));
+function userCanDeleteFile(role: USER_ROLE, file: FileDto) {
+    const userId = appStore.user!.id;
+    if (role === 'PROJECT_MANAGER') {
+        return true;
+    }
+    else if (file.uploaderId === userId) {
+        return (file.type === 'ATTACHMENT' && role === 'DEVELOPER')
+            || (file.type === 'REPORT' && role === 'TECHNICAL_WRITER');
+    }
+    return false;
+}
 </script>
 
 <template>
@@ -80,9 +92,9 @@ attachmentFileDialog.onChange(files => doUpload('attachment', files));
                 />
             </header>
 
-            <div class="size-full flex flex-col gap-3 bg-gray-200 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
+            <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
                 <template v-for="file in fileStore.reports" :key="file.id">
-                    <FileRow :file-data="file" :deleteable="true" />
+                    <FileRow :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)" />
                 </template>
             </div>
         </section>
@@ -101,9 +113,9 @@ attachmentFileDialog.onChange(files => doUpload('attachment', files));
                 />
             </header>
 
-            <div class="size-full flex flex-col gap-3 bg-gray-200 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
+            <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
                 <template v-for="file in fileStore.attachments" :key="file.id">
-                    <FileRow :file-data="file" :deleteable="true" />
+                    <FileRow :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)" />
                 </template>
             </div>
         </section>
