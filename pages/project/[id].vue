@@ -135,7 +135,7 @@ onMounted(async () => {
                         targetMember.role = payload.role;
 
                         if (payload.id === app.user?.id)
-                            authority.role = payload.role;
+                            authority.setRole(payload.role);
                     }
                 }
                 else if (payload.action === 'DELETE') {
