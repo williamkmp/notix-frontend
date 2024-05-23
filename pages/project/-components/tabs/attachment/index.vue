@@ -11,6 +11,7 @@ const authority = useAuthorityStore();
 const project = useProjectStore();
 const appStore = useAppStore();
 
+const socket = useSocketClientStore();
 const api = usePrivateApi();
 const notif = useNotification();
 const { $m } = useMessage();
@@ -76,6 +77,13 @@ function userCanDeleteFile(role: USER_ROLE, file: FileDto) {
     }
     return false;
 }
+
+function doDeleteFile(file: FileDto) {
+    // TODO: impelment do delete file
+    socket.send(`/project/${project.id}/file.delete`, {
+        fileId: file.id,
+    });
+}
 </script>
 
 <template>
@@ -94,7 +102,10 @@ function userCanDeleteFile(role: USER_ROLE, file: FileDto) {
 
             <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
                 <template v-for="file in fileStore.reports" :key="file.id">
-                    <FileRow :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)" />
+                    <FileRow
+                        :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)"
+                        @delete="doDeleteFile(file)"
+                    />
                 </template>
             </div>
         </section>
@@ -115,7 +126,10 @@ function userCanDeleteFile(role: USER_ROLE, file: FileDto) {
 
             <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
                 <template v-for="file in fileStore.attachments" :key="file.id">
-                    <FileRow :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)" />
+                    <FileRow
+                        :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)"
+                        @delete="doDeleteFile(file)"
+                    />
                 </template>
             </div>
         </section>

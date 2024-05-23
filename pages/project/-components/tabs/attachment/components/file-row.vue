@@ -9,6 +9,10 @@ const props = defineProps<{
     deleteable: boolean;
 }>();
 
+defineEmits<{
+    delete: [];
+}>();
+
 const dayJs = useDayjs();
 const c = useRuntimeConfig().public;
 const api = usePrivateApi();
@@ -161,7 +165,14 @@ const uploadDateTime = computed(() => dayJs(props.fileData.createdAt).format('DD
                 </div>
                 <div class="flex flex-col items-center justify-between">
                     <template v-if="props.deleteable">
-                        <UButton variant="ghost" color="red" icon="i-heroicons-x-circle" size="md" :padded="false" />
+                        <UButton
+                            variant="ghost"
+                            size="md"
+                            color="red"
+                            icon="i-heroicons-x-circle"
+                            :padded="false"
+                            @click="$emit('delete')"
+                        />
                     </template>
                     <template v-else>
                         <div />

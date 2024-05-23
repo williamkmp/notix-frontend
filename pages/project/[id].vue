@@ -151,7 +151,7 @@ onMounted(async () => {
                 if (payload.status === HttpStatusCode.Forbidden) {
                     notif.warn({
                         title: 'Forbidden',
-                        message: 'Action not permitted',
+                        message: 'Action cannot be done.',
                     });
                 }
                 else if (payload.status === HttpStatusCode.Unauthorized) {
