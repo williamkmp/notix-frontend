@@ -61,7 +61,7 @@ function openCreateModal() {
                 </table>
             </template>
             <template v-else>
-                <div class="flex bg-red-200 size-full items-center justify-center">
+                <div class="flex size-full items-center justify-center">
                     <section class="flex flex-col items-center justify-center opacity-70">
                         <UIcon name="i-heroicons-no-symbol" class="text-6xl" />
                         <span class="text-base font-semibold">Empty</span>
