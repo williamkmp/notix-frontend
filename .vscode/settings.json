@@ -74,9 +74,14 @@
         "README.md": true,
         "tailwind.config.ts": true,
         "tsconfig.json": true,
+<<<<<<< HEAD
         "package-lock.json": true,
         ".gitignore": true,
         ".vscode": true
+=======
+        "package-lock.json": true
+
+>>>>>>> b9a297fdf70143ace46fa099c7734a87dd684100
     },
     // tailwindcss config
     "tailwindCSS.experimental.configFile": "tailwind.config.ts",
