@@ -66,7 +66,16 @@
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,
-        "**/.DS_Store": true
+        "**/.DS_Store": true,
+        "node_modules": true,
+        ".nuxt": true,
+        "public": true,
+        "eslint.config.js": true,
+        "README.md": true,
+        "tailwind.config.ts": true,
+        "tsconfig.json": true,
+        "package-lock.json": true
+
     },
     // tailwindcss config
     "tailwindCSS.experimental.configFile": "tailwind.config.ts",
