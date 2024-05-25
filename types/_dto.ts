@@ -116,5 +116,10 @@ export interface LogDto {
     userId: string;
     projectId: string;
     subprojectId: string;
+    findingId: string;
     createdAt: string;
+}
+
+export interface FindingDto {
+    id: string;
 }

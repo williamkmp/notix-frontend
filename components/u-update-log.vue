@@ -9,7 +9,7 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import HighLight from '@tiptap/extension-highlight';
 import HardBreak from '@tiptap/extension-hard-break';
-import type { LogDto, ProjectDto, ServerData, SubprojectDto, UserDto } from '~/types';
+import type { FindingDto, LogDto, ProjectDto, ServerData, SubprojectDto, UserDto } from '~/types';
 
 const props = defineProps<{ log: LogDto }>();
 const api = usePrivateApi();
@@ -44,10 +44,12 @@ onMounted(async () => {
         const userId = props.log.userId;
         const projectId = props.log.projectId;
         const subprojectId = props.log.subprojectId;
+        const findingId = props.log.findingId;
 
         let user: UserDto | undefined;
         let project: ProjectDto | undefined;
         let subproject: SubprojectDto | undefined;
+        let finding: FindingDto | undefined;
 
         if (userId) {
             try {
@@ -55,7 +57,9 @@ onMounted(async () => {
                 user = response.data;
                 updater.value = response.data;
             }
-            catch (error) { }
+            catch (error) {
+                console.error(error);
+            }
         }
 
         if (projectId) {
@@ -69,7 +73,9 @@ onMounted(async () => {
                     startDate: dayjs(response.data.startDate).format('DD MMM, YYYY'),
                 };
             }
-            catch (error) { }
+            catch (error) {
+                console.error(error);
+            }
         }
 
         if (subprojectId) {
@@ -77,11 +83,24 @@ onMounted(async () => {
                 const response: ServerData<SubprojectDto> = await api.get(`/api/subproject/${projectId}`);
                 subproject = response.data;
             }
-            catch (error) { }
+            catch (error) {
+                console.error(error);
+            }
+        }
+
+        if (findingId) {
+            try {
+                // TODO: fix this
+                const response: ServerData<FindingDto> = await api.get(`/api/finding/${projectId}`);
+                finding = response.data;
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
 
         const message = decodeURI(props.log.message);
-        const renderedMessage = Mustache.render(message, { user, project, subproject });
+        const renderedMessage = Mustache.render(message, { user, project, subproject, finding });
         editor.value.commands.setContent(renderedMessage);
     }
     isLoading.value = false;
