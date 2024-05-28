@@ -1,6 +1,8 @@
 import type { Dayjs } from 'dayjs';
 
-export type USER_ROLE = 'VIEWER' | 'DEVELOPER' | 'TECHNICAL_WRITER' | 'PENETRATION_TESTER' | 'PROJECT_MANAGER';
+export type USER_ROLE = 'MEMBER' | 'DEVELOPER' | 'TECHNICAL_WRITER' | 'PROJECT_MANAGER';
+
+export type PROJECT_ROLE = 'DEVELOPER' | 'TECHNICAL_WRITER' | 'MEMBER';
 
 export type SubprojectStatus = 'NOT_STARTED' | 'ON_GOING' | 'FINISHED';
 
@@ -53,7 +55,7 @@ export interface LoginDto {
 
 export interface InviteDto {
     email: string;
-    role: USER_ROLE;
+    role: PROJECT_ROLE;
 }
 
 export interface ProjectDto {

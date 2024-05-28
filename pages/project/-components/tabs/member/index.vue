@@ -30,10 +30,8 @@ function roleDisplayOf(role: USER_ROLE) {
     switch (role) {
         case 'DEVELOPER':
             return 'Developer';
-        case 'VIEWER':
-            return 'Viewer';
-        case 'PENETRATION_TESTER':
-            return 'Tester';
+        case 'MEMBER':
+            return 'Member';
         case 'TECHNICAL_WRITER':
             return 'Writer';
         case 'PROJECT_MANAGER':
@@ -45,10 +43,8 @@ function roleIconOf(role: USER_ROLE) {
     switch (role) {
         case 'DEVELOPER':
             return 'i-heroicons-code-bracket';
-        case 'VIEWER':
-            return 'i-heroicons-eye';
-        case 'PENETRATION_TESTER':
-            return 'i-heroicons-beaker';
+        case 'MEMBER':
+            return 'i-heroicons-user';
         case 'TECHNICAL_WRITER':
             return 'i-heroicons-pencil';
         case 'PROJECT_MANAGER':
@@ -120,19 +116,14 @@ function deleteMember(member: MemberDto) {
                                     <UDropdown
                                         :items="[[
                                             {
-                                                label: roleDisplayOf('VIEWER'),
-                                                icon: roleIconOf('VIEWER'),
-                                                click: () => updateMemberRole(member, 'VIEWER'),
+                                                label: roleDisplayOf('MEMBER'),
+                                                icon: roleIconOf('MEMBER'),
+                                                click: () => updateMemberRole(member, 'MEMBER'),
                                             },
                                             {
                                                 label: roleDisplayOf('DEVELOPER'),
                                                 icon: roleIconOf('DEVELOPER'),
                                                 click: () => updateMemberRole(member, 'DEVELOPER'),
-                                            },
-                                            {
-                                                label: roleDisplayOf('PENETRATION_TESTER'),
-                                                icon: roleIconOf('PENETRATION_TESTER'),
-                                                click: () => updateMemberRole(member, 'PENETRATION_TESTER'),
                                             },
                                             {
                                                 label: roleDisplayOf('TECHNICAL_WRITER'),

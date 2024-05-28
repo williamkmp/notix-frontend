@@ -57,14 +57,12 @@ const myRole = computed(() => {
     switch (role) {
         case 'DEVELOPER':
             return 'Developer';
-        case 'PENETRATION_TESTER':
-            return 'Tester';
         case 'TECHNICAL_WRITER':
             return 'Writer';
         case 'PROJECT_MANAGER':
             return 'Project Manager';
         default:
-            return 'Viewer';
+            return 'Member';
     }
 });
 

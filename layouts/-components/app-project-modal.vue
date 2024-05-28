@@ -34,10 +34,8 @@ function roleDisplayOf(role: USER_ROLE) {
     switch (role) {
         case 'DEVELOPER':
             return 'Developer';
-        case 'VIEWER':
-            return 'Viewer';
-        case 'PENETRATION_TESTER':
-            return 'Tester';
+        case 'MEMBER':
+            return 'Member';
         case 'TECHNICAL_WRITER':
             return 'Writer';
     }
@@ -134,19 +132,14 @@ async function doCreateProject() {
                                     <UDropdown
                                         :items="[[
                                             {
-                                                label: 'Viewer',
-                                                icon: 'i-heroicons-eye',
-                                                click: () => projectModal.updateRoleAt(index, 'VIEWER'),
+                                                label: 'Member',
+                                                icon: 'i-heroicons-user',
+                                                click: () => projectModal.updateRoleAt(index, 'MEMBER'),
                                             },
                                             {
                                                 label: 'Developer',
                                                 icon: 'i-heroicons-code-bracket',
                                                 click: () => projectModal.updateRoleAt(index, 'DEVELOPER'),
-                                            },
-                                            {
-                                                label: 'Tester',
-                                                icon: 'i-heroicons-beaker',
-                                                click: () => projectModal.updateRoleAt(index, 'PENETRATION_TESTER'),
                                             },
                                             {
                                                 label: 'Writer',

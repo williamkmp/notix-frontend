@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { InviteDto, USER_ROLE } from '~/types';
+import type { InviteDto, PROJECT_ROLE, USER_ROLE } from '~/types';
 
 export const useProjectModalStore = defineStore('ProjectModal', () => {
     const dayjs = useDayjs();
@@ -34,12 +34,12 @@ export const useProjectModalStore = defineStore('ProjectModal', () => {
         if (!emailExist) {
             form.invites.unshift({
                 email,
-                role: 'VIEWER',
+                role: 'MEMBER',
             });
         }
     }
 
-    function updateRoleAt(index: number, role: USER_ROLE) {
+    function updateRoleAt(index: number, role: PROJECT_ROLE) {
         form.invites[index].role = role;
     }
 

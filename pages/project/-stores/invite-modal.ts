@@ -1,4 +1,4 @@
-import type { InviteDto, USER_ROLE } from '~/types';
+import type { InviteDto, PROJECT_ROLE } from '~/types';
 
 export const useProjectInviteModalStore = defineStore('ProjectInviteModal', () => {
     const isOpen = ref(false);
@@ -13,11 +13,11 @@ export const useProjectInviteModalStore = defineStore('ProjectInviteModal', () =
             return;
         invites.value.unshift({
             email,
-            role: 'VIEWER',
+            role: 'MEMBER',
         });
     }
 
-    function updateInviteRoleAt(index: number, role: USER_ROLE) {
+    function updateInviteRoleAt(index: number, role: PROJECT_ROLE) {
         invites.value[index].role = role;
     }
 

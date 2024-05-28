@@ -37,10 +37,8 @@ function roleDisplayOf(role: USER_ROLE) {
     switch (role) {
         case 'DEVELOPER':
             return 'Developer';
-        case 'VIEWER':
-            return 'Viewer';
-        case 'PENETRATION_TESTER':
-            return 'Tester';
+        case 'MEMBER':
+            return 'Member';
         case 'TECHNICAL_WRITER':
             return 'Writer';
     }
@@ -117,19 +115,14 @@ async function doInviteMembers() {
                                     <UDropdown
                                         :items="[[
                                             {
-                                                label: 'Viewer',
+                                                label: 'Member',
                                                 icon: 'i-heroicons-eye',
-                                                click: () => inviteModal.updateInviteRoleAt(index, 'VIEWER'),
+                                                click: () => inviteModal.updateInviteRoleAt(index, 'MEMBER'),
                                             },
                                             {
                                                 label: 'Developer',
                                                 icon: 'i-heroicons-code-bracket',
                                                 click: () => inviteModal.updateInviteRoleAt(index, 'DEVELOPER'),
-                                            },
-                                            {
-                                                label: 'Tester',
-                                                icon: 'i-heroicons-beaker',
-                                                click: () => inviteModal.updateInviteRoleAt(index, 'PENETRATION_TESTER'),
                                             },
                                             {
                                                 label: 'Writer',
