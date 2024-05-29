@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
 import type { FileDto, ServerData, UserDto } from '~/types';
 
 type FileType = 'AUDIO' | 'VIDEO' | 'IMAGE' | 'TEXT' | 'DOCX' | 'PDF' | 'PPT' | 'EXCEL' | 'FILE';
@@ -39,14 +38,18 @@ const userAvatarUrl = computed(() => `${c.API_BASE_URL}api/file/${user.value?.im
 const fileType = computed((): FileType => {
     const mimeType = props.fileData.contentType;
     const fileName = props.fileData.name;
-    if (mimeType.startsWith('image'))
+    if (mimeType.startsWith('image')) {
         return 'IMAGE';
-    else if (mimeType.startsWith('audio'))
+    }
+    else if (mimeType.startsWith('audio')) {
         return 'AUDIO';
-    else if (mimeType.startsWith('video'))
+    }
+    else if (mimeType.startsWith('video')) {
         return 'VIDEO';
-    else if (mimeType.startsWith('text'))
+    }
+    else if (mimeType.startsWith('text')) {
         return 'TEXT';
+    }
     else if (
         mimeType.endsWith('vnd.openxmlformats-officedocument.wordprocessingml.document')
         || mimeType.endsWith('vnd.ms-word.document.macroEnabled.12')
@@ -56,13 +59,15 @@ const fileType = computed((): FileType => {
         || fileName.endsWith('.docm')
         || fileName.endsWith('.dotx')
         || fileName.endsWith('.dotm')
-    )
+    ) {
         return 'DOCX';
+    }
     else if (
         mimeType.endsWith('pdf')
         || fileName.endsWith('.pdf')
-    )
+    ) {
         return 'PDF';
+    }
     else if (
         mimeType.endsWith('application/vnd.openxmlformats-officedocument.presentationml.presentation')
         || mimeType.endsWith('application/vnd.ms-powerpoint.presentation.macroEnabled.12')
@@ -82,8 +87,9 @@ const fileType = computed((): FileType => {
         || mimeType.endsWith('.ppam')
         || mimeType.endsWith('.sldx')
         || mimeType.endsWith('.sldm')
-    )
+    ) {
         return 'PPT';
+    }
     else if (
         mimeType.endsWith('vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         || mimeType.endsWith('vnd.ms-excel.sheet.macroEnabled.12')
@@ -97,8 +103,9 @@ const fileType = computed((): FileType => {
         || fileName.endsWith('.xltm')
         || fileName.endsWith('.xlsb')
         || fileName.endsWith('.xlam')
-    )
+    ) {
         return 'EXCEL';
+    }
     return 'FILE';
 });
 
@@ -150,15 +157,15 @@ const uploadDateTime = computed(() => dayJs(props.fileData.createdAt).format('DD
 <template>
     <UCard class="w-full">
         <template v-if="!isLoading">
-            <div class="size-full flex gap-4 group">
+            <div class="group flex size-full gap-4">
                 <div class="flex items-center justify-center">
                     <UIcon class="text-5xl" :class="[iconColor]" :name="iconName" dynamic />
                 </div>
-                <div class="w-full flex flex-col gap-0.5 items-start justify-center">
+                <div class="flex w-full flex-col items-start justify-center gap-0.5">
                     <span class="text-base font-semibold">{{ props.fileData.name }}</span>
                     <span class="text-xs font-normal opacity-75">{{ humanReadableFileSize(props.fileData.size) }}</span>
                     <span class="text-xs font-normal opacity-75">{{ uploadDateTime }}</span>
-                    <div class="w-full flex items-center gap-1">
+                    <div class="flex w-full items-center gap-1">
                         <UAvatar size="2xs" :src="userAvatarUrl" :alt="userName.toUpperCase()" />
                         <span class="text-xs">{{ userName }}</span>
                     </div>
@@ -187,7 +194,7 @@ const uploadDateTime = computed(() => dayJs(props.fileData.createdAt).format('DD
             </div>
         </template>
         <template v-else>
-            <USkeleton class="w-full h-20" />
+            <USkeleton class="h-20 w-full" />
         </template>
     </UCard>
 </template>

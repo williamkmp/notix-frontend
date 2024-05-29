@@ -21,7 +21,7 @@ function openCreateModal() {
 </script>
 
 <template>
-    <div data-role="project-tab-container" class="size-full flex flex-col gap-1 ">
+    <div data-role="project-tab-container" class="flex size-full flex-col gap-1 ">
         <header class="flex w-full items-center justify-between">
             <h1 class="text-2xl font-semibold">
                 Projects
@@ -36,7 +36,7 @@ function openCreateModal() {
 
         <section class="size-full">
             <template v-if="!subprojectStore.isEmpty">
-                <table class="table w-full max-h-full table-auto border-separate border-spacing-y-4">
+                <table class="table max-h-full w-full table-auto border-separate border-spacing-y-4">
                     <thead>
                         <th :class="headerClassName">
                             Project

@@ -1,5 +1,5 @@
 <template>
     <div class="flex w-full shrink-0 items-center justify-start">
-        <span class="italic font-normal text-sm pl-2">Empty</span>
+        <span class="pl-2 text-sm font-normal italic">Empty</span>
     </div>
 </template>

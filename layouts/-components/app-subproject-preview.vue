@@ -3,7 +3,7 @@ import type { StompSubscription } from '@stomp/stompjs';
 import PreviewItem from './preview-item.vue';
 import PreviewItemSekeleton from './preview-item-skeleton.vue';
 import PreviewItemEmpty from './preview-item-empty.vue';
-import type { PreviewActionDto, PreviewDto, ServerData } from '~/types';
+import type { PreviewActionDto, PreviewDto } from '~/types';
 
 const props = defineProps<{
     subproject: PreviewDto;
@@ -61,7 +61,7 @@ onUnmounted(() => {
         @do-navigate="navigateTo(`/subproject/${$props.subproject.id}`)"
     />
     <template v-if="isOpen">
-        <div class="w-full flex flex-col pl-6 gap-1">
+        <div class="flex w-full flex-col gap-1 pl-6">
             <template v-if="isChildrenLoaded">
                 <PreviewItemEmpty />
             </template>

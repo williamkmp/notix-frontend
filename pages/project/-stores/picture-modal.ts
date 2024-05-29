@@ -1,5 +1,3 @@
-import type { InviteDto, USER_ROLE } from '~/types';
-
 export const useProjectPictureModalStore = defineStore('ProjectPictureModal', () => {
     const isOpen = ref(false);
     const isSubmitting = ref(false);

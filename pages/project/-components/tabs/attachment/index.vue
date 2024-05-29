@@ -87,9 +87,9 @@ function doDeleteFile(file: FileDto) {
 </script>
 
 <template>
-    <div data-role="project-tab-container" class="size-full flex gap-5">
-        <section data-role="reports-section" class="size-full flex flex-col gap-3">
-            <header class="w-full flex justify-between">
+    <div data-role="project-tab-container" class="flex size-full gap-5">
+        <section data-role="reports-section" class="flex size-full flex-col gap-3">
+            <header class="flex w-full justify-between">
                 <h1 class="text-2xl font-semibold">
                     Reports
                 </h1>
@@ -100,7 +100,7 @@ function doDeleteFile(file: FileDto) {
                 />
             </header>
 
-            <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
+            <div class="flex size-full flex-col gap-3 overflow-y-scroll rounded-lg bg-gray-100 p-3 dark:bg-gray-800">
                 <template v-for="file in fileStore.reports" :key="file.id">
                     <FileRow
                         :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)"
@@ -112,8 +112,8 @@ function doDeleteFile(file: FileDto) {
 
         <UDivider orientation="vertical" />
 
-        <section data-role="attachment-section" class="size-full flex flex-col gap-3">
-            <header class="w-full flex justify-between">
+        <section data-role="attachment-section" class="flex size-full flex-col gap-3">
+            <header class="flex w-full justify-between">
                 <h1 class="text-2xl font-semibold">
                     Attachments
                 </h1>
@@ -124,7 +124,7 @@ function doDeleteFile(file: FileDto) {
                 />
             </header>
 
-            <div class="size-full flex flex-col gap-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-3 overflow-y-scroll">
+            <div class="flex size-full flex-col gap-3 overflow-y-scroll rounded-lg bg-gray-100 p-3 dark:bg-gray-800">
                 <template v-for="file in fileStore.attachments" :key="file.id">
                     <FileRow
                         :file-data="file" :deleteable="userCanDeleteFile(authority.role, file)"

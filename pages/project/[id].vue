@@ -225,9 +225,9 @@ onBeforeRouteUpdate(pageCleanup);
 
         <template #body>
             <div data-role="project-page" class="flex h-full justify-center px-20">
-                <UContainer class="py-10 flex w-full flex-col gap-4 ">
+                <UContainer class="flex w-full flex-col gap-4 py-10 ">
                     <ProjectHeader />
-                    <div class="flex-grow">
+                    <div class="grow">
                         <ProjectTabs />
                     </div>
                 </UContainer>

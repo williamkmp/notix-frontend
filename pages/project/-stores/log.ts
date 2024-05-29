@@ -1,4 +1,4 @@
-import type { LogDto, SubprojectDto } from '~/types';
+import type { LogDto } from '~/types';
 
 export const useProjectLogStore = defineStore('ProjectLogStore', () => {
     const list = ref<LogDto[]>([]);

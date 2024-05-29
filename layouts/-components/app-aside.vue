@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProjectPreview from './app-project-preview.vue';
-import type { PreviewActionDto, PreviewDto, ProjectDto, ServerData } from '~/types';
+import type { PreviewActionDto, PreviewDto, ServerData } from '~/types';
 
 // Dependencies
 const app = useAppStore();

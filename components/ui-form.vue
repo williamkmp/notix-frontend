@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { FormState } from '~/types';
-
 const props = defineProps<{
     form: any;
 }>();

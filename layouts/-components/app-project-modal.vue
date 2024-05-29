@@ -115,7 +115,7 @@ async function doCreateProject() {
                             <UButton color="white" variant="solid" type="submit" label="Add" icon="i-heroicons-plus" class="mt-2" :disabled="projectModal.isSubmitting" />
                         </UiForm>
 
-                        <div class="mt-3 h-[14rem] max-h-[14rem] w-full flex-col overflow-y-auto rounded-md border border-gray-200">
+                        <div class="mt-3 h-56 max-h-56 w-full flex-col overflow-y-auto rounded-md border border-gray-200">
                             <template v-if="projectModal.isMembersEmpty">
                                 <div class="flex size-full items-center justify-center">
                                     <section class="flex flex-col items-center justify-center opacity-70">

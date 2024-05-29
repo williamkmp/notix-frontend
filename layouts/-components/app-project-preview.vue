@@ -76,7 +76,7 @@ onUnmounted(() => {
         @do-navigate="navigateTo(`/project/${$props.project.id}`)"
     />
     <template v-if="isOpen">
-        <div class="w-full flex flex-col pl-6 gap-1">
+        <div class="flex w-full flex-col gap-1 pl-6">
             <template v-if="isChildrenLoaded">
                 <template v-if="!isSubprojectEmpty">
                     <SubprojectPreview

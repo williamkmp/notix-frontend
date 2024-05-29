@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { InviteDto, PROJECT_ROLE, USER_ROLE } from '~/types';
+import type { InviteDto, PROJECT_ROLE } from '~/types';
 
 export const useProjectModalStore = defineStore('ProjectModal', () => {
     const dayjs = useDayjs();

@@ -94,7 +94,7 @@ async function doInviteMembers() {
                         </UiForm>
 
                         <div
-                            class="mt-5 h-[14rem] max-h-[14rem] w-full flex-col overflow-y-auto rounded-md border border-gray-200"
+                            class="mt-5 h-56 max-h-56 w-full flex-col overflow-y-auto rounded-md border border-gray-200"
                         >
                             <template v-if="inviteModal.isInvitesEmpty">
                                 <div class="flex size-full items-center justify-center">
