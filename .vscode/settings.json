@@ -1,20 +1,24 @@
 {
     "files.associations": {
-        "*.css": "tailwindcss",
-        "*.ts": "typescript"
+        "*.css": "tailwindcss"
     },
-    // Enable the ESlint flat config support
     "eslint.experimental.useFlatConfig": true,
-    // Disable the default formatter, use eslint instead
-    "prettier.enable": false,
     "editor.formatOnSave": false,
     // Auto fix
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "always",
+        "source.fixAll.eslint": "explicit",
         "source.organizeImports": "never"
     },
     // Silent the stylistic rules in you IDE, but still auto fix them
     "eslint.rules.customizations": [
+        {
+            "rule": "style/*",
+            "severity": "off"
+        },
+        {
+            "rule": "format/*",
+            "severity": "off"
+        },
         {
             "rule": "*-indent",
             "severity": "off"
@@ -59,7 +63,17 @@
         "markdown",
         "json",
         "jsonc",
-        "yaml"
+        "yaml",
+        "toml",
+        "xml",
+        "gql",
+        "graphql",
+        "astro",
+        "css",
+        "less",
+        "scss",
+        "pcss",
+        "postcss"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -74,14 +88,9 @@
         "README.md": true,
         "tailwind.config.ts": true,
         "tsconfig.json": true,
-<<<<<<< HEAD
         "package-lock.json": true,
         ".gitignore": true,
         ".vscode": true
-=======
-        "package-lock.json": true
-
->>>>>>> b9a297fdf70143ace46fa099c7734a87dd684100
     },
     // tailwindcss config
     "tailwindCSS.experimental.configFile": "tailwind.config.ts",
@@ -98,10 +107,6 @@
             "class:\\s*?[\"'`]([^\"'`]*).*?,"
         ]
     ],
-    "editor.quickSuggestions": {
-        "strings": true
-    },
-    "vue.complete.casing.tags": "pascal",
     "vue.splitEditors.icon": false,
     "editor.indentSize": "tabSize",
     "typescript.tsdk": "node_modules/typescript/lib"

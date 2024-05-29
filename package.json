@@ -7,7 +7,9 @@
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare"
+        "postinstall": "nuxt prepare",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@stomp/stompjs": "^7.0.0",
@@ -39,26 +41,27 @@
         "uuid": "^9.0.1",
         "vue-advanced-cropper": "^2.8.8",
         "y-prosemirror": "^1.2.3",
-        "y-websocket": "^1.5.4",
         "yjs": "^13.6.14"
     },
     "devDependencies": {
-        "@antfu/eslint-config": "^2.8.0",
+        "@antfu/eslint-config": "^2.19.1",
         "@nuxt/ui": "^2.14.2",
         "@pinia/nuxt": "^0.5.1",
         "@samk-dev/nuxt-vcalendar": "^1.0.3",
         "@tiptap/extension-collaboration": "^2.4.0",
         "@types/mustache": "^4.2.5",
         "@types/uuid": "^9.0.8",
-        "@vueuse/nuxt": "^10.9.0",
-        "axios": "^1.6.8",
+        "@vueuse/nuxt": "^10.10.0",
+        "axios": "^1.7.2",
         "dayjs": "^1.11.11",
         "dayjs-nuxt": "^2.1.9",
-        "eslint": "^9.2.0",
-        "eslint-plugin-tailwindcss": "^3.14.3",
+        "eslint": "^9.3.0",
+        "eslint-plugin-tailwindcss": "^3.17.0",
         "nuxt": "^3.10.3",
+        "typescript": "^5.4.5",
         "vue": "^3.4.27",
         "vue-router": "^4.3.2",
+        "y-websocket": "^2.0.3",
         "zod": "^3.22.4"
     }
 }
