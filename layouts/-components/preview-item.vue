@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
     lable: string;
-    level: number;
-    redirectUrl: string;
     isLeaf?: boolean;
     isOpen: boolean;
     imageId?: string;

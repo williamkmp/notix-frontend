@@ -3,23 +3,22 @@ import type { StompSubscription } from '@stomp/stompjs';
 import PreviewItem from './preview-item.vue';
 import PreviewItemSekeleton from './preview-item-skeleton.vue';
 import PreviewItemEmpty from './preview-item-empty.vue';
-import SubprojectPreview from './app-subproject-preview.vue';
 import type { PreviewActionDto, PreviewDto, ServerData } from '~/types';
 
 const props = defineProps<{
-    project: PreviewDto;
+    subproject: PreviewDto;
 }>();
 
 const emit = defineEmits<{
-    deleted: [project: PreviewDto];
+    deleted: [subproject: PreviewDto];
 }>();
 
 const subscribtion = ref<StompSubscription>();
 const socket = useSocketClientStore();
 const api = usePrivateApi();
 
-const name = ref(props.project.name);
-const imageId = ref(props.project.imageId);
+const name = ref(props.subproject.name);
+const imageId = ref(props.subproject.imageId);
 const isOpen = ref(false);
 const isChildrenLoaded = ref(false);
 const subprojectPreviews = ref<PreviewDto[]>([]);
@@ -33,36 +32,22 @@ function toggleOpen() {
 }
 
 async function fetchPreview() {
-    const projectId = props.project.id;
-    const reponse: ServerData<PreviewDto[]> = await api.get(`/api/project/${projectId}/subprojects/preview`);
-    subprojectPreviews.value = reponse.data;
+    const subprojectId = props.subproject.id;
+    // TODO: impelemnt this
     isChildrenLoaded.value = true;
 }
 
 onMounted(async () => {
-    subscribtion.value = socket.subscribe(`/topic/project/${props.project.id}/preview`, (payload: PreviewActionDto) => {
+    subscribtion.value = socket.subscribe(`/topic/subproject/${props.subproject.id}/preview`, (payload: PreviewActionDto) => {
         if (payload.action === 'UPDATE_SELF') {
             name.value = payload.name;
             imageId.value = payload.imageId;
         }
-        else if (payload.action === 'ADD_CHILD') {
-            subprojectPreviews.value.unshift({
-                id: payload.id,
-                name: payload.name,
-                imageId: payload.imageId,
-            });
-        }
         else if (payload.action === 'DELETE_SELF') {
-            emit('deleted', props.project);
+            emit('deleted', props.subproject);
         }
     });
 });
-
-function deleteChildren(targetPreview: PreviewDto) {
-    const targetIndex = subprojectPreviews.value.findIndex(preview => preview.id === targetPreview.id);
-    if (targetIndex >= 0)
-        subprojectPreviews.value.splice(targetIndex, 1);
-}
 
 onUnmounted(() => {
     if (subscribtion.value)
@@ -73,23 +58,12 @@ onUnmounted(() => {
 <template>
     <PreviewItem
         :is-open="isOpen" :lable="name" @toggle-open="toggleOpen"
-        @do-navigate="navigateTo(`/project/${$props.project.id}`)"
+        @do-navigate="navigateTo(`/subproject/${$props.subproject.id}`)"
     />
     <template v-if="isOpen">
         <div class="w-full flex flex-col pl-6 gap-1">
             <template v-if="isChildrenLoaded">
-                <template v-if="!isSubprojectEmpty">
-                    <SubprojectPreview
-                        v-for="subproject in subprojectPreviews"
-                        :key="subproject.id"
-                        :subproject="subproject"
-                        @deleted="deleteChildren(subproject)"
-                    />
-                    <!--  -->
-                </template>
-                <template v-else>
-                    <PreviewItemEmpty />
-                </template>
+                <PreviewItemEmpty />
             </template>
             <template v-else>
                 <PreviewItemSekeleton />

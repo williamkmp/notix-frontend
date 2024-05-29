@@ -126,14 +126,6 @@ function removePreview(previewId: string) {
                         @click="() => projectModal.isOpen = true"
                     />
                 </UTooltip>
-
-                <DevOnly>
-                    <UButton
-                        color="gray" label="Editor" icon="i-heroicons-code-bracket-square" variant="ghost"
-                        class="justify-start text-gray-500 hover:bg-gray-200 dark:text-gray-400" size="sm" block
-                        @click="() => navigateTo('/public/editor') "
-                    />
-                </DevOnly>
             </section>
 
             <section class="flex w-full flex-col">
@@ -142,9 +134,7 @@ function removePreview(previewId: string) {
                 </header>
                 <div class="mt-1 flex w-full flex-col gap-1">
                     <template v-if="isLoadingProjects">
-                        <USkeleton class="h-7 w-full" />
-                        <USkeleton class="h-7 w-full" />
-                        <USkeleton class="h-7 w-full" />
+                        <USkeleton class="h-24 w-full" />
                     </template>
                     <template v-else-if="!isLoadingProjects && hasProjects">
                         <ProjectPreview
