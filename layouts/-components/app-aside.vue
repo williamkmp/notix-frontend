@@ -132,7 +132,7 @@ function removePreview(previewId: string) {
                 <header>
                     <span class="text-sm font-medium opacity-65">Projects</span>
                 </header>
-                <div class="mt-1 flex w-full flex-col gap-1">
+                <div class="mt-1 flex w-full flex-col">
                     <template v-if="isLoadingProjects">
                         <USkeleton class="h-24 w-full" />
                     </template>

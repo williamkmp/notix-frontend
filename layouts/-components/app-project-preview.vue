@@ -25,6 +25,13 @@ const isChildrenLoaded = ref(false);
 const subprojectPreviews = ref<PreviewDto[]>([]);
 
 const isSubprojectEmpty = computed(() => subprojectPreviews.value.length <= 0);
+const imageUrl = computed(() => {
+    if (imageId.value) {
+        const baseURL = useRuntimeConfig().public.API_BASE_URL;
+        return `${baseURL}api/file/${imageId.value}`;
+    }
+    return undefined;
+});
 
 function toggleOpen() {
     isOpen.value = !isOpen.value;
@@ -72,20 +79,21 @@ onUnmounted(() => {
 
 <template>
     <PreviewItem
-        :is-open="isOpen" :lable="name" @toggle-open="toggleOpen"
-        @do-navigate="navigateTo(`/project/${$props.project.id}`)"
-    />
+        :is-open="isOpen" :lable="name" toggleable @toggle="toggleOpen"
+        @navigate="navigateTo(`/project/${$props.project.id}`)"
+    >
+        <template #leading>
+            <UAvatar size="xs" :src="imageUrl" icon="i-heroicons-folder" />
+        </template>
+    </PreviewItem>
     <template v-if="isOpen">
-        <div class="flex w-full flex-col gap-1 pl-6">
+        <div class="flex w-full flex-col pl-6">
             <template v-if="isChildrenLoaded">
                 <template v-if="!isSubprojectEmpty">
                     <SubprojectPreview
-                        v-for="subproject in subprojectPreviews"
-                        :key="subproject.id"
-                        :subproject="subproject"
-                        @deleted="deleteChildren(subproject)"
+                        v-for="subproject in subprojectPreviews" :key="subproject.id"
+                        :subproject="subproject" @deleted="deleteChildren(subproject)"
                     />
-                    <!--  -->
                 </template>
                 <template v-else>
                     <PreviewItemEmpty />

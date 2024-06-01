@@ -3,7 +3,8 @@ import type { StompSubscription } from '@stomp/stompjs';
 import PreviewItem from './preview-item.vue';
 import PreviewItemSekeleton from './preview-item-skeleton.vue';
 import PreviewItemEmpty from './preview-item-empty.vue';
-import type { PreviewActionDto, PreviewDto } from '~/types';
+import FindingPreview from './app-finding-preview.vue';
+import type { PreviewActionDto, PreviewDto, ServerData } from '~/types';
 
 const props = defineProps<{
     subproject: PreviewDto;
@@ -21,20 +22,27 @@ const name = ref(props.subproject.name);
 const imageId = ref(props.subproject.imageId);
 const isOpen = ref(false);
 const isChildrenLoaded = ref(false);
-const subprojectPreviews = ref<PreviewDto[]>([]);
+const childrens = ref<PreviewDto[]>([]);
 
-const isSubprojectEmpty = computed(() => subprojectPreviews.value.length <= 0);
+const isChildrenEmpty = computed(() => childrens.value.length <= 0);
 
 function toggleOpen() {
     isOpen.value = !isOpen.value;
     if (!isChildrenLoaded.value)
-        fetchPreview();
+        fetchChildren();
 }
 
-async function fetchPreview() {
+async function fetchChildren() {
     const subprojectId = props.subproject.id;
-    // TODO: impelemnt this
+    const response: ServerData<PreviewDto[]> = await api.get(`/api/subproject/${subprojectId}/findings/preview`);
+    childrens.value = response.data;
     isChildrenLoaded.value = true;
+}
+
+function deleteChildren(targetPreview: PreviewDto) {
+    const targetIndex = childrens.value.findIndex(preview => preview.id === targetPreview.id);
+    if (targetIndex >= 0)
+        childrens.value.splice(targetIndex, 1);
 }
 
 onMounted(async () => {
@@ -57,13 +65,25 @@ onUnmounted(() => {
 
 <template>
     <PreviewItem
-        :is-open="isOpen" :lable="name" @toggle-open="toggleOpen"
-        @do-navigate="navigateTo(`/subproject/${$props.subproject.id}`)"
-    />
+        :is-open="isOpen" :lable="name" toggleable @toggle="toggleOpen"
+        @navigate="navigateTo(`/subproject/${$props.subproject.id}`)"
+    >
+        <template #leading>
+            <UIcon name="i-heroicons-folder-solid" class="my-0.5 text-lg" />
+        </template>
+    </PreviewItem>
     <template v-if="isOpen">
-        <div class="flex w-full flex-col gap-1 pl-6">
+        <div class="flex w-full flex-col pl-6">
             <template v-if="isChildrenLoaded">
-                <PreviewItemEmpty />
+                <template v-if="!isChildrenEmpty">
+                    <FindingPreview
+                        v-for="finding in childrens" :key="finding.id" :finding="finding"
+                        @deleted="deleteChildren(subproject)"
+                    />
+                </template>
+                <template v-else>
+                    <PreviewItemEmpty />
+                </template>
             </template>
             <template v-else>
                 <PreviewItemSekeleton />
