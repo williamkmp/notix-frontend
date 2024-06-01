@@ -1,8 +1,8 @@
 import type { Dayjs } from 'dayjs';
 
-export type USER_ROLE = 'MEMBER' | 'DEVELOPER' | 'TECHNICAL_WRITER' | 'PROJECT_MANAGER';
+export type USER_ROLE = 'CONSULTANT' | 'MEMBER' | 'DEVELOPER' | 'TECHNICAL_WRITER' | 'PROJECT_MANAGER';
 
-export type PROJECT_ROLE = 'DEVELOPER' | 'TECHNICAL_WRITER' | 'MEMBER';
+export type PROJECT_ROLE = 'MEMBER' | 'DEVELOPER' | 'TECHNICAL_WRITER';
 
 export type SubprojectStatus = 'NOT_STARTED' | 'ON_GOING' | 'FINISHED';
 
@@ -124,4 +124,66 @@ export interface LogDto {
 
 export interface FindingDto {
     id: string;
+    name: string;
+    imageId?: string;
+    creatorId: string;
+    createdAt: string;
+    findingDetail: FindingDetail;
+    cvssDetail: CvssDetail;
+}
+
+export type FINDING_CATEGORY =
+    'INFRASTRUCTURE' |
+    'API' |
+    'IOS' |
+    'ANDROID' |
+    'WEB' |
+    'MOBILE';
+
+export type FINDING_LOCATION =
+    'INTERNAL' |
+    'EXTERNAL';
+
+export type FINDING_METHOD =
+    'WHITE_BOX' |
+    'BLACK_BOX' |
+    'GREY_BOX';
+
+export type FINDING_LIKELIHOOD =
+    'RARE' |
+    'UNLIKELY' |
+    'POSSIBLE' |
+    'LIKELY' |
+    'CERTAINLY';
+
+export type FINDING_IMPACT =
+    'INSIGNIFICANT' |
+    'MINOR' |
+    'MODERATE' |
+    'MAJOR' |
+    'CATASTROPHIC';
+
+export type FINDING_RISK =
+    'LOW' |
+    'MEDIUM' |
+    'HIGH' |
+    'EXTREME';
+
+export interface FindingDetail {
+    caregory?: FINDING_CATEGORY;
+    location?: FINDING_LOCATION;
+    method?: FINDING_METHOD;
+    likelihood?: FINDING_LIKELIHOOD;
+    impact?: FINDING_IMPACT;
+    isInformational: boolean;
+}
+
+export interface CvssDetail {
+
+}
+
+export interface FindingGetResponse {
+    finding: FindingDto;
+    role: USER_ROLE;
+    creator: UserDto;
 }
