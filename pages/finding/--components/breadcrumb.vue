@@ -6,13 +6,13 @@ const pageStore = usePageStore();
 
 <template>
     <template v-if="true">
-        <template v-if="!pageStore.isFetching">
+        <template v-if="pageStore.isDataLoaded">
             <UBreadcrumb
                 :links="[
-                    {
-                        label: pageStore.finding.name,
-                    },
-                ]"
+                    { label: 'Project' },
+                    { label: 'Subproject' },
+                    { label: pageStore.finding!.name },
+                ]" divider="i-heroicons-chevron-right-20-solid"
             />
         </template>
         <template v-else>

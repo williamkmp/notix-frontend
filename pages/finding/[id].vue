@@ -3,8 +3,11 @@ import { usePageStore } from './--stores/page-store';
 
 // Components import
 import Breadcrumb from './--components/breadcrumb.vue';
-import SidepanelContainer from './--components/sidepanel/container.vue';
-import SidepanelHeader from './--components/sidepanel/sections/header.vue';
+import SidepanelContainer from './--components/sidepanel-container.vue';
+import MainpanelContainer from './--components/mainpanel-container.vue';
+import FindingProfile from './--components/sidepanel-parts/finding-profile.vue';
+import FindingProperty from './--components/sidepanel-parts/finding-property.vue';
+import FindingCvss from './--components/sidepanel-parts/finding-cvss.vue';
 import AppPage from '~/layouts/-components/app-page.vue';
 
 const pageStore = usePageStore();
@@ -27,18 +30,27 @@ useLazyAsyncData(
         </template>
 
         <template #body>
-            <div class="flex size-full">
+            <div class="flex size-full gap-6">
                 <SidepanelContainer>
-                    <SidepanelHeader />
-                    <UDivider class="my-2" />
+                    <FindingProfile />
+                    <UDivider class="mt-2" />
+                    <FindingProperty />
+                    <UDivider />
+                    <FindingCvss />
                 </SidepanelContainer>
 
-                <section
-                    data-role="finding-mainpanel"
-                    class="size-full"
-                >
-                    <!--  -->
-                </section>
+                <MainpanelContainer>
+                    <template #header>
+                        <UTabs
+                            :items="[
+                                { label: 'Document' },
+                                { label: 'CVSS' },
+                                { label: 'Test Results' },
+                                { label: 'Discussions' },
+                            ]" :default-index="0"
+                        />
+                    </template>
+                </MainpanelContainer>
             </div>
         </template>
     </AppPage>

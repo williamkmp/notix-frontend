@@ -14,6 +14,8 @@ export type ACTION = 'ADD' | 'UPDATE' | 'DELETE';
 
 export type FILE_TYPE = 'ATTACHMENT' | 'REPORT' | 'PUBLIC';
 
+export type CVSS_RATING = 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+
 export interface EventDto {
     id: string;
     name: string;
@@ -125,7 +127,6 @@ export interface LogDto {
 export interface FindingDto {
     id: string;
     name: string;
-    imageId?: string;
     creatorId: string;
     createdAt: string;
     findingDetail: FindingDetail;

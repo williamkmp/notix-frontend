@@ -14,3 +14,10 @@ export interface RangeDatePickerModel {
     start: Date;
     end: Date;
 }
+
+export interface PropertyOption {
+    label: string;
+    value: string;
+}
+
+export type UI_COLOR = 'red' | 'green' | 'blue' | 'white' | 'gray' | 'slate' | 'orage';

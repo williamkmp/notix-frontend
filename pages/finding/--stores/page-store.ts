@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 import { calculateLikelihoodScore } from '../--functions/calculate-likelihood-score';
 import { calculateImpactScore } from '../--functions/calculate-impact-score';
-import type { FINDING_RISK, FindingDto, FindingGetResponse, ServerData, USER_ROLE, UserDto } from '~/types';
+import type { CVSS_RATING, FINDING_RISK, FindingDto, FindingGetResponse, ServerData, USER_ROLE, UserDto } from '~/types';
 
 export const usePageStore = defineStore('FindingPageStore', () => {
+    const dayjs = useDayjs();
     const api = usePrivateApi();
     const ENV = useRuntimeConfig();
 
@@ -14,6 +15,7 @@ export const usePageStore = defineStore('FindingPageStore', () => {
     const roleData = ref<USER_ROLE>('MEMBER');
 
     // computed values
+
     const finding = computed(() => {
         return findingData.value;
     });
@@ -39,21 +41,11 @@ export const usePageStore = defineStore('FindingPageStore', () => {
             return 'EXTREME';
     });
 
-    const creator = computed(() => {
-        return creatorData.value;
-    });
+    const findingCreatedDate = computed(() => dayjs(finding.value?.createdAt).format('D MMM YYYY'));
+
+    const creator = computed(() => creatorData.value);
 
     const role = computed(() => roleData.value);
-
-    const findingImageUrl = computed(() => {
-        if (!finding.value)
-            return undefined;
-        const imageId = finding.value.imageId;
-        const baseUrl = ENV.public.API_BASE_URL;
-        return imageId !== undefined
-            ? `${baseUrl}file/${imageId}`
-            : undefined;
-    });
 
     const creatorImageUrl = computed(() => {
         if (!creator.value)
@@ -65,7 +57,32 @@ export const usePageStore = defineStore('FindingPageStore', () => {
             : undefined;
     });
 
-    const isFetching = computed(() => isLoading.value);
+    const cvssString = computed(() => 'CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N');
+
+    const cvssScore = computed(() => 7.7);
+
+    const cvssRating = computed((): CVSS_RATING => {
+        const score = cvssScore.value;
+        if (score >= 0.1 && score <= 3.9)
+            return 'LOW';
+        else if (score >= 4.0 && score <= 6.9)
+            return 'MEDIUM';
+        else if (score >= 7.0 && score <= 8.9)
+            return 'HIGH';
+        else if (score >= 7.0 && score <= 8.9)
+            return 'CRITICAL';
+        else
+            return 'NONE';
+    });
+
+    const isDataLoaded = computed(() => (
+        (isLoading.value === false)
+        && (finding.value !== undefined)
+        && (creator.value !== undefined)
+    ),
+    );
+
+    const isDataLoading = computed(() => !isDataLoaded.value);
 
     // mutations
     async function initializeData(findingId: string) {
@@ -81,14 +98,18 @@ export const usePageStore = defineStore('FindingPageStore', () => {
     }
 
     return {
-        isFetching,
+        isDataLoaded,
+        isDataLoading,
         finding,
         findingRiskScore,
         findingRiskLevel,
+        findingCreatedDate,
+        cvssString,
+        cvssScore,
+        cvssRating,
         creator,
-        role,
-        findingImageUrl,
         creatorImageUrl,
+        role,
         initializeData,
     };
 });
