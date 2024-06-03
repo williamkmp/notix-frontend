@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { calculateLikelihoodScore } from '../--functions/calculate-likelihood-score';
 import { calculateImpactScore } from '../--functions/calculate-impact-score';
-import type { CVSS_RATING, FINDING_RISK, FindingDto, FindingGetResponse, ServerData, USER_ROLE, UserDto } from '~/types';
+import type { CVSS_RATING, FINDING_CATEGORY, FINDING_IMPACT, FINDING_LIKELIHOOD, FINDING_LOCATION, FINDING_METHOD, FINDING_RISK, FindingDto, FindingGetResponse, ServerData, USER_ROLE, UserDto } from '~/types';
 
 export const usePageStore = defineStore('FindingPageStore', () => {
     const dayjs = useDayjs();
@@ -15,15 +15,10 @@ export const usePageStore = defineStore('FindingPageStore', () => {
     const roleData = ref<USER_ROLE>('MEMBER');
 
     // computed values
-
-    const finding = computed(() => {
-        return findingData.value;
-    });
-
     const findingRiskScore = computed(() => {
-        if (finding.value) {
-            const likelihoodScore = calculateLikelihoodScore(finding.value.findingDetail.likelihood);
-            const impactScore = calculateImpactScore(finding.value.findingDetail.impact);
+        if (findingData.value) {
+            const likelihoodScore = calculateLikelihoodScore(findingData.value.findingDetail.likelihood);
+            const impactScore = calculateImpactScore(findingData.value.findingDetail.impact);
             return impactScore * likelihoodScore;
         }
         return 0;
@@ -33,24 +28,24 @@ export const usePageStore = defineStore('FindingPageStore', () => {
         const score = findingRiskScore.value;
         if (score <= 5)
             return 'LOW';
-        else if (score >= 6 && score <= 10)
+        else if (score <= 10)
             return 'MEDIUM';
-        else if (score >= 11 && score <= 15)
+        else if (score <= 15)
             return 'HIGH';
         else
             return 'EXTREME';
     });
 
-    const findingCreatedDate = computed(() => dayjs(finding.value?.createdAt).format('D MMM YYYY'));
-
-    const creator = computed(() => creatorData.value);
-
-    const role = computed(() => roleData.value);
+    const findingCreatedDate = computed(() => {
+        if (findingData.value)
+            return dayjs(findingData.value?.createdAt).format('D MMM YYYY');
+        return 'undefined';
+    });
 
     const creatorImageUrl = computed(() => {
-        if (!creator.value)
+        if (!creatorData.value)
             return undefined;
-        const imageId = creator.value.imageId;
+        const imageId = creatorData.value.imageId;
         const baseUrl = ENV.public.API_BASE_URL;
         return imageId !== undefined
             ? `${baseUrl}file/${imageId}`
@@ -77,8 +72,8 @@ export const usePageStore = defineStore('FindingPageStore', () => {
 
     const isDataLoaded = computed(() => (
         (isLoading.value === false)
-        && (finding.value !== undefined)
-        && (creator.value !== undefined)
+        && (findingData.value !== undefined)
+        && (creatorData.value !== undefined)
     ),
     );
 
@@ -97,19 +92,54 @@ export const usePageStore = defineStore('FindingPageStore', () => {
         isLoading.value = false;
     }
 
+    const postUpdateFindingImpact = useDebounceFn((value: FINDING_IMPACT) => {
+        // TODO: implement publishing
+    }, 500);
+
+    const postUpdateFindingLikelihood = useDebounceFn((value: FINDING_LIKELIHOOD) => {
+        // TODO: implement publishing
+    }, 500);
+
+    const postUpdateFindingCategory = useDebounceFn((value: FINDING_CATEGORY) => {
+        // TODO: implement publishing
+    }, 500);
+
+    const postUpdateFindingLocation = useDebounceFn((value: FINDING_LOCATION) => {
+        // TODO: implement publishing
+    }, 500);
+
+    const postUpdateFindingMethod = useDebounceFn((value: FINDING_METHOD) => {
+        // TODO: implement publishing
+    }, 500);
+
+    const postUpdateFindingApplicationName = useDebounceFn((value: string) => {
+        // TODO: implement publishing
+    }, 300);
+
+    const postUpdateFindingEnvironment = useDebounceFn((value: string) => {
+        // TODO: implement publishing
+    }, 300);
+
     return {
         isDataLoaded,
         isDataLoading,
-        finding,
+        finding: findingData,
+        creator: creatorData,
+        role: roleData,
         findingRiskScore,
         findingRiskLevel,
         findingCreatedDate,
         cvssString,
         cvssScore,
         cvssRating,
-        creator,
         creatorImageUrl,
-        role,
         initializeData,
+        postUpdateFindingCategory,
+        postUpdateFindingLocation,
+        postUpdateFindingApplicationName,
+        postUpdateFindingEnvironment,
+        postUpdateFindingMethod,
+        postUpdateFindingImpact,
+        postUpdateFindingLikelihood,
     };
 });

@@ -176,6 +176,8 @@ export interface FindingDetail {
     method?: FINDING_METHOD;
     likelihood?: FINDING_LIKELIHOOD;
     impact?: FINDING_IMPACT;
+    applicationName?: string;
+    environment?: string;
     isInformational: boolean;
 }
 

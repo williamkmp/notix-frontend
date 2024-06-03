@@ -28,7 +28,7 @@ const badgeColor = computed((): UI_COLOR => {
 </script>
 
 <template>
-    <section data-role="finding-cvss-detail" class="mt-1 flex w-full flex-col">
+    <section data-role="finding-cvss-detail" class="flex w-full flex-col">
         <header class="flex w-full items-center gap-2">
             <span class="text-sm font-bold">CVSS</span>
             <template v-if="pageStore.isDataLoaded">

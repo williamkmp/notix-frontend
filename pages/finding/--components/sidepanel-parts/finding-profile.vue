@@ -3,18 +3,22 @@ import { usePageStore } from '../../--stores/page-store';
 
 const pageStore = usePageStore();
 const isLoaded = computed(() => pageStore.isDataLoaded);
-const riskScore = computed(() => pageStore.findingRiskScore);
-const riskLevel = computed(() => pageStore.findingRiskLevel);
 
 const canEditTitle = ref(true);
 const titleInputFocused = ref(false);
 
-const badgeStyle = {
-    'bg-slate-50 dark:bg-slate-400/10 text-slate-500 dark:text-slate-400 ring-slate-500/25 dark:ring-slate-400/25': riskLevel.value === 'LOW',
-    'bg-orange-50 dark:bg-orange-400/10 text-orange-500 dark:text-orange-400 ring-orange-500/25 dark:ring-orange-400/25': riskLevel.value === 'MEDIUM',
-    'bg-red-50 dark:bg-red-400/10 text-red-500 dark:text-red-400 ring-red-500/25 dark:ring-red-400/25': riskLevel.value === 'HIGH',
-    'bg-rose-50 dark:bg-rose-400/10 text-rose-500 dark:text-rose-400 ring-rose-500/25 dark:ring-rose-400/25': riskLevel.value === 'EXTREME',
-};
+const badgeStyle = computed(() => {
+    if (pageStore.findingRiskLevel === 'MEDIUM')
+
+        return 'bg-orange-50 dark:bg-orange-400/10 text-orange-500 dark:text-orange-400 ring-orange-500/25 dark:ring-orange-400/25';
+    else if (pageStore.findingRiskLevel === 'HIGH')
+
+        return 'bg-red-50 dark:bg-red-400/10 text-red-500 dark:text-red-400 ring-red-500/25 dark:ring-red-400/25';
+    else if (pageStore.findingRiskLevel === 'EXTREME')
+
+        return 'bg-rose-50 dark:bg-rose-400/10 text-rose-500 dark:text-rose-400 ring-rose-500/25 dark:ring-rose-400/25';
+    return 'bg - slate - 50 dark: bg - slate - 400 / 10 text - slate - 500 dark: text - slate - 400 ring - slate - 500 / 25 dark: ring - slate - 400 / 25';
+});
 </script>
 
 <template>
@@ -40,7 +44,7 @@ const badgeStyle = {
                         :class="badgeStyle"
                     >
                         <span class="text-2xl font-bold">
-                            {{ riskScore }}
+                            {{ pageStore.findingRiskScore }}
                         </span>
                     </div>
                 </template>

@@ -15,9 +15,9 @@ export interface RangeDatePickerModel {
     end: Date;
 }
 
-export interface PropertyOption {
+export interface PropertyOption<T extends string = string> {
+    value: T;
     label: string;
-    value: string;
 }
 
 export type UI_COLOR = 'red' | 'green' | 'blue' | 'white' | 'gray' | 'slate' | 'orage';
